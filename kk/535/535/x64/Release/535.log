@@ -1,0 +1,27 @@
+﻿  535.cpp
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\xutility(2957): warning C4244: “=”: 从“const double”转换到“int”，可能丢失数据
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\xutility(2971): note: 参见对正在编译的函数 模板 实例化“void std::_Fill_unchecked1<_FwdIt,_Ty>(_FwdIt,_FwdIt,const _Ty &,std::false_type)”的引用
+          with
+          [
+              _FwdIt=int *,
+              _Ty=double
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\xutility(2979): note: 参见对正在编译的函数 模板 实例化“void std::_Fill_unchecked<_Iter,_Ty>(_FwdIt,_FwdIt,const _Ty &)”的引用
+          with
+          [
+              _Iter=int *,
+              _Ty=double,
+              _FwdIt=int *
+          ]
+  c:\users\spartan117\documents\noip\ans\kk\535\535\535.cpp(30): note: 参见对正在编译的函数 模板 实例化“void std::fill<int*,double>(_FwdIt,_FwdIt,const _Ty &)”的引用
+          with
+          [
+              _FwdIt=int *,
+              _Ty=double
+          ]
+  正在生成代码
+  7 of 19 functions (36.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  535.vcxproj -> C:\Users\Spartan117\Documents\noip\ans\kk\535\x64\Release\535.exe
