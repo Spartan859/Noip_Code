@@ -119,24 +119,70 @@ struct bignum{
 		len=i+dig+1;
 		clr();
 	}
+	void subdig(int dig,bignum b){
+		int i;
+		for(i=0;i<b.len;i++){
+			if((s[i+dig]-=b.s[i])<0){
+				s[i+dig]+=10;
+				s[i+dig+1]--;
+			}
+		}
+		clr();
+	}
+	bool ledig(int dig,bignum b){
+		int i;
+		if(len+dig>b.len) return 0;
+		if(len+dig<b.len) return 1;
+		for(i=len-1;i>=0&&s[i]==b.s[i+dig];i--);
+		return i<0||s[i]<b.s[i+dig];
+	}
+	void operator /= (bignum b){
+		bignum q,r;q=0;r=*this;
+		for(int i=SIZE-b.len;i>=0;i--)
+			for(;b.ledig(i,r);q.s[i]++)
+				r.subdig(i,b);
+		q.len=SIZE-b.len+3;q.clr();
+		//r.len=b.len;r.clr();
+		*this=q;
+	}
+	bignum operator / (bignum b){
+		bignum q,r;q=0;r=*this;
+		for(int i=SIZE-b.len;i>=0;i--)
+			for(;b.ledig(i,r);q.s[i]++){
+				r.subdig(i,b);
+			}
+		q.len=SIZE-b.len+3;q.clr();
+		//r.len=b.len;r.clr();
+		//*this=q;
+		return q;
+	}
+	void operator %= (bignum b){
+		bignum q,r;q=0;r=*this;
+		for(int i=SIZE-b.len;i>=0;i--)
+			for(;b.ledig(i,r);q.s[i]++)
+				r.subdig(i,b);
+		//q.len=b.len;q.clr();
+		r.len=b.len;r.clr();
+		*this=r;
+	}
+	bignum operator % (bignum b){
+		bignum q,r;q=0;r=*this;
+		for(int i=SIZE-b.len;i>=0;i--)
+			for(;b.ledig(i,r);q.s[i]++)
+				r.subdig(i,b);
+		//q.len=b.len;q.clr();
+		r.len=b.len;r.clr();
+		return r;
+	}
 }a,b,c;
-inline bignum max_bn(bignum a,bignum b){
-	return a>b?a:b;
-}
 
-bignum n,ans,yi;
-int m;
+inline bignum max_bn(bignum a,bignum b){return a>b?a:b;}
+inline bignum min_bn(bignum a,bignum b){return a<b?a:b;}
 
 int main(){
-	
-	ans=1;yi=1;
-	n.scan();
-	cin>>m;
-	for(int i=1;i<=m;i++){
-		ans*=n;
-		n-=yi;
-	}
-	ans.print();
-	
+	a.scan();
+	b.scan();
+	(a/b).print();
+	(a%b).print();
 	return 0;
 }
