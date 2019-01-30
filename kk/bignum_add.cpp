@@ -18,9 +18,10 @@ struct bignum{
 		for(i=0;i<len;i++) s[len-i-1]=sss[i]-'0';
 		for(;i<SIZE;i++) s[i]=0;
 	}
-	void print(){
+	void print(string ssss="noendl"){
 		for(int i=len-1;i>=0;i--) cout<<s[i];
-		cout<<endl;
+		if(len-1<0) cout<<"0";
+		if(ssss=="endl") cout<<endl;
 	}
 	void operator += (bignum b){
 		int i;
@@ -227,8 +228,29 @@ int main(){
 	a.scan();
 	b.scan();
 	c.scan();
+	cout<<"Input Complete.Tests start."<<endl<<endl;
 	a++;--a;
 	b--;++b;
-	max_bn(a,max_bn(b,c)).print();
+	a.print("endl");
+	b.print("endl");
+	cout<<"The number should be as same as input"<<endl<<endl;
+	(++c).print("endl");
+	cout<<"The number should be c+1"<<endl<<endl;
+	max_bn(a,max_bn(b,c)).print("endl");//if you want to endl,type "endl",else type nothing
+	min_bn(a,min_bn(b,c)).print("endl");
+	cout<<"MAX and MIN of a,b,c"<<endl<<endl;
+	(a/b).print("endl");//support /=(bignum) as well,but don't support int.Because I'm lazy
+	(b*c).print("endl");//the same as previous
+	(c+a).print("endl");//the same as previous
+	(a-b).print("endl");//the same as previous
+	cout<<"Disgusting output.See the code.Numbers less than 0 will cout 0"<<endl<<endl;
+	cout<<(a<b)<<(a>b)<<(c<=a)<<(c>=a)<<(b==c)<<(b!=c)<<endl;
+	cout<<"Disgusting output.See the code.Numbers less than 0 will cout 0"<<endl<<endl;
+	b=a;
+	c=0;
+	a.print();cout<<' ';
+	b.print();cout<<' ';
+	c.print("endl");
+	cout<<"The answer should be a,a,0"<<endl;
 	return 0;
 }
