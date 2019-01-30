@@ -174,6 +174,50 @@ struct bignum{
 		r.len=b.len;r.clr();
 		return r;
 	}
+	bignum operator ++ (int){
+		bignum rt=*this;
+		s[0]++;
+		for(int i=0;i<len;i++){
+			if(s[i]>=10){
+				s[i]-=10;
+				++s[i+1];
+			}
+			else break;
+		}
+		return rt;
+	}
+	bignum operator ++ (){
+		s[0]++;
+		for(int i=0;i<len;i++){
+			if(s[i]>=10){
+				s[i]-=10;
+				++s[i+1];
+			}
+			else break;
+		}
+		return *this;
+	}
+	bignum operator -- (int){
+		bignum rt=*this;
+		s[0]--;
+		for(int i=0;i<len;i++){
+			if(s[i]<0){
+				s[i]+=10;
+				--s[i+1];
+			}else break;
+		}
+		return rt;
+	}
+	bignum operator -- (){
+		s[0]--;
+		for(int i=0;i<len;i++){
+			if(s[i]<0){
+				s[i]+=10;
+				--s[i+1];
+			}else break;
+		}
+		return *this;
+	}
 }a,b,c;
 
 inline bignum max_bn(bignum a,bignum b){return a>b?a:b;}
@@ -182,7 +226,9 @@ inline bignum min_bn(bignum a,bignum b){return a<b?a:b;}
 int main(){
 	a.scan();
 	b.scan();
-	(a/b).print();
-	(a%b).print();
+	c.scan();
+	a++;--a;
+	b--;++b;
+	max_bn(a,max_bn(b,c)).print();
 	return 0;
 }
