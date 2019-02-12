@@ -1,87 +1,73 @@
-#include <algorithm>
+#include<bits/stdc++.h>
 #define ll long long
-#include <cctype>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <queue>
-#include <string>
-#include <set>
-#include <vector>
- 
 using namespace std;
-#define pr(x) cout << #x << " = " << x << "  "
-#define prln(x) cout << #x << " = " << x << endl
-const int N = 205, INF = 0x3f3f3f3f, MOD = 1e9 + 7;
- 
-int n;
-struct Seg {
-    double l, r, h; int d;
-    Seg() {}
-    Seg(double l, double r, double h, int d): l(l), r(r), h(h), d(d) {}
-    bool operator< (const Seg& rhs) const {return h < rhs.h;}
-} a[N];
- 
-int cnt[N << 2]; //根节点维护的是[l, r+1]的区间
-double sum[N << 2], all[N];
- 
-#define lson l, m, rt << 1
-#define rson m + 1, r, rt << 1 | 1
- 
-void push_up(int l, int r, int rt) {
-    if(cnt[rt]) sum[rt] = all[r + 1] - all[l];
-    else if(l == r) sum[rt] = 0; //leaves have no sons
-    else sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
+const ll N = 100005;
+ll n, m, num = 0;
+struct P {
+	double x, y, z;
+	ll k;
+	bool operator < (const P w) const {
+		return x < w.x;
+	}
+} a[N<<1];
+double raw[N<<1];
+map<double, ll> val;
+struct T {
+	ll l, r, cnt;
+	double len;
+} t[N<<3];
+
+void build(ll p, ll l, ll r) {
+	t[p].l = l;
+	t[p].r = r;
+	t[p].cnt = 0;
+	t[p].len = 0;
+	if (l == r) return;
+	ll mid = (l + r) >> 1;
+	build(p << 1, l, mid);
+	build(p << 1 | 1, mid + 1, r);
 }
- 
-void update(int L, int R, int v, int l, int r, int rt) {
-    if(L <= l && r <= R) {
-        cnt[rt] += v;
-        push_up(l, r, rt);
-        return;
-    }
-    int m = l + r >> 1;
-    if(L <= m) update(L, R, v, lson);
-    if(R > m) update(L, R, v, rson);
-    push_up(l, r, rt);
+
+void change(ll p, ll l, ll r, double k) {
+	if (l <= t[p].l && r >= t[p].r) t[p].len = ((t[p].cnt += k) ? raw[t[p].r+1] - raw[t[p].l] : 0);
+	if (t[p].l == t[p].r) return;
+	ll mid = (t[p].l + t[p].r) >> 1;
+	if (l <= mid) change(p << 1, l, r, k);
+	if (r > mid) change(p << 1 | 1, l, r, k);
+	t[p].len = (t[p].cnt ? raw[t[p].r+1] - raw[t[p].l] : t[p<<1].len + t[p<<1|1].len);
 }
- 
+
+void reward() {
+	for (ll i = 1; i <= n; i++) {
+		ll k = i << 1;
+		double y, z;
+		scanf("%lf %lf %lf %lf", &a[k-1].x, &y, &a[k].x, &z);
+		if(a[k-1].x>a[k].x) swap(a[k-1].x,a[k].x);
+		if(y>z) swap(y,z);
+		raw[k-1] = a[k-1].y = a[k].y = y;
+		raw[k] = a[k-1].z = a[k].z = z;
+		a[k-1].k = 1;
+		a[k].k = -1;
+	}
+	n <<= 1;
+	sort(raw + 1, raw + n + 1);
+	ll m = unique(raw + 1, raw + n + 1) - (raw + 1);
+	for (ll i = 1; i <= m; i++) val[raw[i]] = i;
+	sort(a + 1, a + n + 1);
+	build(1, 1, m - 1);
+	double ans = 0;
+	for (ll i = 1; i < n; i++) {
+		ll y = val[a[i].y], z = val[a[i].z] - 1;
+		change(1, y, z, a[i].k);
+		ans += t[1].len * (a[i+1].x - a[i].x);
+	}
+	cout<<fixed<<setprecision(0)<<ans<<endl;
+}
+
 int main() {
-#ifdef LOCAL
-    freopen("in.txt", "r", stdin);
-//  freopen("out.txt","w",stdout);
-#endif
-    ios_base::sync_with_stdio(0);
- 
-    int kase = 0;
-    while(scanf("%d", &n) == 1 && n) {
-        for(int i = 1; i <= n; ++i) {
-            double x1, y1, x2, y2;
-            scanf("%lf%lf%lf%lf", &x1, &y1, &x2, &y2);
-            a[i] = Seg(x1, x2, y1, 1);
-            a[i + n] = Seg(x1, x2, y2, -1);
-            all[i] = x1; all[i + n] = x2;
-        }
-        n <<= 1;
-        sort(a + 1, a + 1 + n);
-        sort(all + 1, all + 1 + n);
-        int m = unique(all + 1, all + 1 + n) - all - 1;
- 
-        memset(cnt, 0, sizeof cnt);
-        memset(sum, 0, sizeof sum);
- 
-        ll ans = 0;
-        for(int i = 1; i < n; ++i) {
-            int l = lower_bound(all + 1, all + 1 + m, a[i].l) - all;
-            int r = lower_bound(all + 1, all + 1 + m, a[i].r) - all;
-            if(l < r) update(l, r - 1, a[i].d, 1, m, 1);
-            ans += sum[1] * (a[i + 1].h - a[i].h);
-        }
-       	cout<<ans<<endl;
-    }
-    return 0;
+	//freopen("reward5.in","r",stdin);
+	//freopen("reward5.out","w",stdout);
+	scanf("%lld",&n);
+	reward();
+	return 0;
 }

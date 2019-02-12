@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#define SIZE 1209
+#define SIZE 12009
 using namespace std;
 struct bignum{
 	int s[SIZE],len;
@@ -70,6 +70,7 @@ struct bignum{
 			len++;
 			b/=10;
 		}
+		clr();
 	}
 	bool operator == (bignum b){
 		if(*this!=b) return 0;
@@ -139,27 +140,27 @@ struct bignum{
 	}
 	void operator /= (bignum b){
 		bignum q,r;q=0;r=*this;
-		for(int i=SIZE-b.len;i>=0;i--)
+		for(int i=len-b.len+1;i>=0;i--)
 			for(;b.ledig(i,r);q.s[i]++)
 				r.subdig(i,b);
-		q.len=SIZE-b.len+3;q.clr();
+		q.len=len-b.len+2;q.clr();
 		//r.len=b.len;r.clr();
 		*this=q;
 	}
 	bignum operator / (bignum b){
 		bignum q,r;q=0;r=*this;
-		for(int i=SIZE-b.len;i>=0;i--)
+		for(int i=len-b.len+1;i>=0;i--)
 			for(;b.ledig(i,r);q.s[i]++){
 				r.subdig(i,b);
 			}
-		q.len=SIZE-b.len+3;q.clr();
+		q.len=len-b.len+2;q.clr();
 		//r.len=b.len;r.clr();
 		//*this=q;
 		return q;
 	}
 	void operator %= (bignum b){
 		bignum q,r;q=0;r=*this;
-		for(int i=SIZE-b.len;i>=0;i--)
+		for(int i=len-b.len+1;i>=0;i--)
 			for(;b.ledig(i,r);q.s[i]++)
 				r.subdig(i,b);
 		//q.len=b.len;q.clr();
@@ -168,7 +169,7 @@ struct bignum{
 	}
 	bignum operator % (bignum b){
 		bignum q,r;q=0;r=*this;
-		for(int i=SIZE-b.len;i>=0;i--)
+		for(int i=len-b.len+1;i>=0;i--)
 			for(;b.ledig(i,r);q.s[i]++)
 				r.subdig(i,b);
 		//q.len=b.len;q.clr();
@@ -185,6 +186,7 @@ struct bignum{
 			}
 			else break;
 		}
+		len++;clr();
 		return rt;
 	}
 	bignum operator ++ (){
@@ -196,6 +198,7 @@ struct bignum{
 			}
 			else break;
 		}
+		len++;clr();
 		return *this;
 	}
 	bignum operator -- (int){
@@ -207,6 +210,7 @@ struct bignum{
 				--s[i+1];
 			}else break;
 		}
+		len++;clr();
 		return rt;
 	}
 	bignum operator -- (){
@@ -217,40 +221,26 @@ struct bignum{
 				--s[i+1];
 			}else break;
 		}
+		len++;clr();
 		return *this;
 	}
-}a,b,c;
+};
 
 inline bignum max_bn(bignum a,bignum b){return a>b?a:b;}
 inline bignum min_bn(bignum a,bignum b){return a<b?a:b;}
 
+int n;
+bignum ans,tmp;
+
 int main(){
-	a.scan();
-	b.scan();
-	c.scan();
-	cout<<"Input Complete.Tests start."<<endl<<endl;
-	a++;--a;
-	b--;++b;
-	a.print("endl");
-	b.print("endl");
-	cout<<"The number should be as same as input"<<endl<<endl;
-	(++c).print("endl");
-	cout<<"The number should be c+1"<<endl<<endl;
-	max_bn(a,max_bn(b,c)).print("endl");//if you want to endl,type "endl",else type nothing
-	min_bn(a,min_bn(b,c)).print("endl");
-	cout<<"MAX and MIN of a,b,c"<<endl<<endl;
-	(a/b).print("endl");//support /=(bignum) as well,but don't support int.Because I'm lazy
-	(b*c).print("endl");//the same as previous
-	(c+a).print("endl");//the same as previous
-	(a-b).print("endl");//the same as previous
-	cout<<"Disgusting output.See the code.Numbers less than 0 will cout 0"<<endl<<endl;
-	cout<<(a<b)<<(a>b)<<(c<=a)<<(c>=a)<<(b==c)<<(b!=c)<<endl;
-	cout<<"Disgusting output.See the code.Numbers less than 0 will cout 0"<<endl<<endl;
-	b=a;
-	c=0;
-	a.print();cout<<' ';
-	b.print();cout<<' ';
-	c.print("endl");
-	cout<<"The answer should be a,a,0"<<endl;
+	ans=1;
+	scanf("%d",&n);
+	for(int i=2;i<=n;i++){
+		tmp=4*i-2;
+		ans*=tmp;
+		tmp=i+1;
+		ans/=tmp;
+	}
+	ans.print();
 	return 0;
 }

@@ -55,7 +55,7 @@ int main(){
 	for(ll i=1;i<=m;i++){
 		scanf("%lld %lld %lld %lld",&t,&l,&r,&k);
 		if(t==1) addK(l,r,1,k);
-		else ans[cnt++]=(query(l,r,1)+P)%P;
+		else ans[cnt++]=(query(l,l,1)+P)%P;
 	}
 	for(ll i=0;i<cnt;i++) cout<<ans[i]<<endl;
 	return 0;
