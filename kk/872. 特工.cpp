@@ -55,6 +55,5 @@ int main(){
 			mp[i][j]=mp[j][i]=abs(x[i]-x[j])+abs(y[i]-y[j]);
     floyd(n);
     printf("%d\n", solve(n));
-    cout<<(1<<19)<<endl;
   	return 0;
 }
