@@ -1,0 +1,20 @@
+#include <iostream>
+#include <cstdio> 
+#include <algorithm>
+#include <cstring>
+#include <cmath>
+using namespace std;
+const int N=;
+inline int gi() {
+    int x=0,o=1;
+    char ch=getchar();
+    while(ch<'0'||ch>'9') ch=='-'?o=-1:0,ch=getchar();
+    while(ch>='0'&&ch<='9') x=x*10+ch-'0',ch=getchar();
+    return x*o;
+}
+int main() {
+    freopen(".in","r",stdin);
+    freopen(".out","w",stdout);
+
+    return 0;
+}
