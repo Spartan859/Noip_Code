@@ -13,9 +13,8 @@ namespace KMP{
 				++k;++j;
 				nxt[j]=k;
 				if(p[j]==p[nxt[j]]) nxt[j]=nxt[nxt[j]];
-			}else{
+			}else
 				k=nxt[k];
-			}
 		}
 	}
 	bool KMP(char* p,char* s){
