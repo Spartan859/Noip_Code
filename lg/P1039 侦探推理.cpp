@@ -21,9 +21,9 @@ int main(){
 
         getline(cin,say[i]);
         say[i].erase(say[i].begin());
-    //  say[i].erase(say[i].end()-1);
+        say[i].erase(say[i].end()-1);
     }
-    for(int td=1;td<=7;td++) 
+    for(int td=1;td<=7;td++)
     	for(int px=1;px<=m;px++){ 
 	        err=0;
     	    memset(fake,0,sizeof(fake)); 
@@ -53,4 +53,5 @@ int main(){
     	}
     if(!nx)cout<<"Impossible"; 
     else cout<<name[nx];
+    return 0;
 }

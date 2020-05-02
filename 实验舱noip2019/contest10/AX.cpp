@@ -40,7 +40,7 @@ int main(){
 		printf("%lld\n",ansx);
 		return 0; 
 	} 
-	ll l=0,r=1e9,mid,ans;
+	ll l=0,r=1e9+n,mid,ans;
 	while(l<r){
 		mid=(l+r+1)>>1;
 		if(check(mid)) r=mid-1,ans=mid;
